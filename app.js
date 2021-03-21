@@ -2,9 +2,10 @@ const express = require('express')
 const config = require('config')
 const mongoose = require('mongoose')
 const app = express()
+const startRoutes = require('./routes')
 app.use(express.json({ extended: true }))
 const PORT = config.get('port') || 5000
-app.use('/api/auth', require('./routes/auth.routes'))
+startRoutes(app)
 async function start() {
   try {
     const MONGO_URI = config.get('mongoUri')
