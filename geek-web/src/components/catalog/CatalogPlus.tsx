@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useHttp } from '../../hooks/http.hook'
 import { addCatalog } from '../../redux/actions/catalog'
 import { Catalog } from '../../types'
+import { RChip } from '../parts/RChip'
 export const CatalogPlus = () => {
   const dispatch = useDispatch()
   const initForm = {
@@ -10,8 +11,10 @@ export const CatalogPlus = () => {
     description: '',
     link: ''
   }
+  const chipsInit: string[] = []
   const [form, setForm] = useState({ ...initForm })
-
+  const [chips, setChips] = useState(chipsInit)
+  const [tmpChip, setTmpChip] = useState('')
   const changeHandler = (event: any) => {
     setForm({
       ...form,
@@ -27,6 +30,19 @@ export const CatalogPlus = () => {
       dispatch(addCatalog(data))
       setForm({ ...initForm })
     }
+  }
+  const onAddChip = () => {
+    const some: boolean = chips.some((item) => item === tmpChip)
+    if (tmpChip && !some) {
+      setChips([...chips, tmpChip])
+    }
+    setTmpChip('')
+  }
+  const inputTmpChip = (event: any) => {
+    setTmpChip(event.target.value)
+  }
+  const onCloseChip = (position: number) => () => {
+    setChips(chips.filter((item, index) => index !== position))
   }
   return (
     <div className="col m3">
@@ -61,6 +77,24 @@ export const CatalogPlus = () => {
               onChange={changeHandler}
             />
             <label htmlFor="link">Link</label>
+          </div>
+          <div>
+            <div>
+              <input type="text" value={tmpChip} onChange={inputTmpChip} />
+              <button className="btn btn-small blue" onClick={onAddChip}>
+                Add Tags
+              </button>
+            </div>
+            <div>
+              {chips.map((item, index) => (
+                <RChip
+                  key={item}
+                  text={item}
+                  close={true}
+                  onClose={onCloseChip(index)}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <div className="card-action">
