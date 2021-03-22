@@ -4,7 +4,8 @@ import { useHttp } from '../../hooks/http.hook'
 import { addCatalog } from '../../redux/actions/catalog'
 import { Catalog } from '../../types'
 import { RChip } from '../parts/RChip'
-export const CatalogPlus = () => {
+
+export const CatalogPlus: React.FC = () => {
   const dispatch = useDispatch()
   const initForm = {
     name: '',

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Catalog } from '../../types/'
-type CatalogProps = {
+type Props = {
   catalog: Catalog
 }
-export const CatalogItem = ({ catalog }: CatalogProps) => {
+export const CatalogItem: React.FC<Props> = ({ catalog }) => {
   return (
     <div className="col m3">
       <div className="card">

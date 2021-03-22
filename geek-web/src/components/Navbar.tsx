@@ -2,7 +2,8 @@ import React, { useContext } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import routes, { Middleware } from '../routes'
-export const Navbar = () => {
+
+export const Navbar: React.FC = () => {
   const history = useHistory()
   const auth = useContext(AuthContext)
   const logoutHandler = () => {
