@@ -1,6 +1,7 @@
 import React from 'react'
 import { DashboardItem } from '../components/dashboard/DashboardItem'
-export const DashboardPage = () => {
+
+export const DashboardPage: React.FC = () => {
   return (
     <div>
       <h2>DashboardPage</h2>

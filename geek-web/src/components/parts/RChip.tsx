@@ -1,11 +1,11 @@
 import React from 'react'
-type RChipProps = {
+type Props = {
   close?: boolean
   text: string
   onClose?: () => void
   onClick?: () => void
 }
-export const RChip = (props: RChipProps) => {
+export const RChip: React.FC<Props> = (props) => {
   return (
     <div className="chip" onClick={props.onClick}>
       {props.text}

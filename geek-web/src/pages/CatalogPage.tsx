@@ -6,7 +6,8 @@ import { useHttp } from '../hooks/http.hook'
 import { fetchCatalogs } from '../redux/actions/catalog'
 import { RootState } from '../redux/reducers/rootReducer'
 import { Catalog } from '../types'
-export const CatalogPage = () => {
+
+export const CatalogPage: React.FC = () => {
   const { loading, error, request, clearError } = useHttp()
   const dispatch = useDispatch()
   const catalogs: Array<Catalog> = useSelector(
