@@ -2,6 +2,7 @@ import React from 'react'
 import { AuthPage } from '../pages/AuthPage'
 import { CatalogPage } from '../pages/CatalogPage'
 import { DashboardPage } from '../pages/DashboardPage'
+import { SlackPage } from '../pages/SlackPage'
 export enum Middleware {
   Auth,
   Guest
@@ -23,6 +24,12 @@ const routes: ReadonlyArray<Route> = [
     name: 'Catalog',
     path: '/catalog',
     component: CatalogPage,
+    middleware: Middleware.Auth
+  },
+  {
+    name: 'Slack',
+    path: '/slack',
+    component: SlackPage,
     middleware: Middleware.Auth
   },
   {

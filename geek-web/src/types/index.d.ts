@@ -8,3 +8,19 @@ export interface Catalog {
   link: string
   tags?: Tag[]
 }
+export type Group = {
+  readonly _id: string
+  name: string
+  users: Array<User>
+}
+export type User = {
+  readonly _id: string
+  name: string
+  email: string
+  online: boolean
+  avatar?: 'string'
+}
+type Message = {
+  user: User
+  text: string
+}

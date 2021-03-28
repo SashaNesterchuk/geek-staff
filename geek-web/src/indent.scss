@@ -1,0 +1,11 @@
+$step: 4;
+$count: 5;
+@mixin indent($className, $styleName) {
+  $i: 0;
+  @while $i <= $count {
+    #{$className + $i} {
+      #{$styleName}: #{$i * $step + 'px'};
+    }
+    $i: $i + 1;
+  }
+}

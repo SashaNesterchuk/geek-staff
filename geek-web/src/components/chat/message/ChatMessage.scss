@@ -1,0 +1,15 @@
+.message.self {
+  background-color: #ec7357;
+}
+.message.another {
+  background-color: #f5a575;
+}
+.message {
+  border-radius: 2px;
+}
+.message-block {
+  display: flex;
+}
+.message-block.self {
+  justify-content: flex-end;
+}
