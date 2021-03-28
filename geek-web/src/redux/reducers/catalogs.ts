@@ -16,6 +16,14 @@ const catalogs = (state = initialState, action: ReduceAction): CatalogState => {
       })
     case Actions.FETCH_CATALOGS:
       return { ...state, catalogs: action.payload }
+    case Actions.DELETE_CATALOG:
+      const catalogs = state.catalogs.filter(
+        (item) => item._id !== action.payload._id
+      )
+      return {
+        ...state,
+        catalogs
+      }
     default:
       return state
   }

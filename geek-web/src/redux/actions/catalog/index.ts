@@ -14,3 +14,10 @@ export const fetchCatalogs = (catalogs: Array<Catalog>): ReduceAction => {
   }
   return actionCatalog
 }
+export const deleteCatalog = (catalog: Catalog): ReduceAction => {
+  const actionCatalog: ReduceAction = {
+    type: Actions.DELETE_CATALOG,
+    payload: catalog
+  }
+  return actionCatalog
+}

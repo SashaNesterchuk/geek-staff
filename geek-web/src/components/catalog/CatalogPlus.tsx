@@ -25,7 +25,8 @@ export const CatalogPlus: React.FC = () => {
   const { request, error } = useHttp()
   const onPlus = async () => {
     const data: Catalog = await request('/api/catalog/create', 'POST', {
-      ...form
+      ...form,
+      tags: chips
     })
     if (!!data) {
       dispatch(addCatalog(data))

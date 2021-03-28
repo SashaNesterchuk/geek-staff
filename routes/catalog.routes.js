@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 const router = Router()
 const Catalog = require('../models/Catalog')
+const Tag = require('../models/Tag')
 
 router.post(
   '/create',
@@ -28,7 +29,16 @@ router.post(
           .json({ errors: validations.array(), message: 'Wrong data' })
       }
       const { name, link, tags, description } = req.body
-      const catalog = new Catalog({ name, link, tags, description })
+      const savedTags = []
+      for (const tag of tags) {
+        let resTag = await Tag.findOne({ name: tag })
+        if (!resTag) {
+          resTag = await new Tag({ name: tag })
+          resTag.save()
+        }
+        savedTags.push(resTag._id)
+      }
+      const catalog = new Catalog({ name, link, description, tags: savedTags })
       catalog.save()
       res.status(200).json(catalog)
     } catch (e) {
@@ -38,10 +48,29 @@ router.post(
 )
 router.get('/all', async (req, res) => {
   try {
-    const catalogs = await Catalog.find({})
+    const catalogs = await Catalog.find({}).populate('tags')
     res.json(catalogs)
   } catch (e) {
     res.status(500).json({ message: e.message })
   }
 })
+router.delete(
+  '/delete',
+  [check('id', 'Id is required').exists()],
+  async (req, res) => {
+    try {
+      const validations = validationResult(req)
+      if (!validations.isEmpty()) {
+        return res
+          .status(500)
+          .json({ errors: validations.array(), message: 'Wrong data' })
+      }
+      const { id } = req.body
+      await Catalog.find({ _id: id }).remove()
+      res.status(201)
+    } catch (e) {
+      res.status(500).json({ message: e.message })
+    }
+  }
+)
 module.exports = router
