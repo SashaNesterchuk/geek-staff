@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { CatalogItem } from '../components/catalog/CatalogItem'
 import { CatalogPlus } from '../components/catalog/CatalogPlus'
@@ -8,7 +8,7 @@ import { RootState } from '../redux/reducers/rootReducer'
 import { Catalog } from '../types'
 
 export const CatalogPage: React.FC = () => {
-  const { loading, error, request, clearError } = useHttp()
+  const { request } = useHttp()
   const dispatch = useDispatch()
   const catalogs: Array<Catalog> = useSelector(
     (state: RootState) => state.catalogs.catalogs
