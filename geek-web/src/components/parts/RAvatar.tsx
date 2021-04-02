@@ -10,7 +10,7 @@ export const RAvatar: React.FC<Props> = ({ avatar, name }) => {
     ? name[0].toUpperCase() + name[name.length - 1].toUpperCase()
     : 'UD'
   return (
-    <div>
+    <div className="avatar">
       {avatar ? (
         <img src={avatar} alt="" />
       ) : (

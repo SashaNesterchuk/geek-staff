@@ -15,6 +15,7 @@ export const SlackPage = () => {
   return (
     <div className="row flex">
       <div className="col-3 sidebar">
+        <div>Direct messages:</div>
         <SlackSidebar
           items={sidebar}
           active={activeUser ? activeUser.name : ''}

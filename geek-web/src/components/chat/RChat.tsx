@@ -10,7 +10,7 @@ type Props = {
 export const RChat: React.FC<Props> = ({ user }) => {
   const [messages, setMessages] = useState<Array<Message>>([
     { text: 'Hi!', user: users[0] },
-    { text: 'Hi!', user: users[1] },
+    { text: 'Hey!', user: users[1] },
     { text: 'How are you?', user: users[0] },
     { text: 'Ok, How about you?', user: users[1] }
   ])
