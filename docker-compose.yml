@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  geek-web:
+    build:
+      context: ./geek-web
+      dockerfile: Dockerfile.prod
+    container_name: geekstaff-web
+    command: serve -s build -l 3000
+    networks:
+      - geekstaff-network
+
+  geek-catalog:
+    build: ./geek-catalog
+    container_name: geekstaff-catalog
+    command: npm run start
+    restart: unless-stopped
+    environment:
+      - PORT=3001
+      - MONGO_URL=mongodb://mongo-catalog:27017/catalog
+      - SLACK_API_URL=http://geek-slack:3002
+    depends_on:
+      - mongo-catalog
+    networks:
+      - geekstaff-network
+
+  geek-slack:
+    build: ./geek-slack
+    container_name: geekstaff-slack
+    command: npm run start
+    restart: unless-stopped
+    environment:
+      - PORT=3002
+      - MONGO_URL=mongodb://mongo-slack:27017/slack
+      - CATALOG_API_URL=http://geek-catalog:3001
+    depends_on:
+      - mongo-slack
+    networks:
+      - geekstaff-network
+
+  mongo-catalog:
+    container_name: geekstaff-mongo_catalog
+    image: mongo:latest
+    volumes:
+      - mongodb_catalog:/data/db
+    networks:
+      - geekstaff-network
+
+  mongo-slack:
+    container_name: geekstaff-mongo_slack
+    image: mongo:latest
+    volumes:
+      - mongodb_slack:/data/db
+    networks:
+      - geekstaff-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: geekstaff-nginx
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - geek-web
+      - geek-catalog
+      - geek-slack
+    networks:
+      - geekstaff-network
+
+volumes:
+  mongodb_catalog:
+  mongodb_slack:
+
+networks:
+  geekstaff-network:
+    driver: bridge
