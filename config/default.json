@@ -1,5 +1,0 @@
-{
-  "port": 5000,
-  "jwtSecret": "geek staff",
-  "mongoUri": "mongodb+srv://onesterchuk:W0c92g11@@cluster0.cizbp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-}

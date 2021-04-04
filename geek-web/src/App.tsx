@@ -9,6 +9,13 @@ function App() {
   const { token, userId, login, logout } = useAuth()
   const isAuthenticated = !!token
   const routes = useRoutes(isAuthenticated)
+  const clickHandle = () => {
+    fetch('/api/slack')
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data)
+      })
+  }
   return (
     <AuthContext.Provider
       value={{ token, userId, isAuthenticated, login, logout }}

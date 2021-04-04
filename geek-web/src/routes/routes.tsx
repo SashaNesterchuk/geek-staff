@@ -6,22 +6,22 @@ import { DashboardPage } from '../pages/DashboardPage'
 import { SlackPage } from '../pages/SlackPage'
 
 export const useRoutes = (isAuthenticated: boolean) => {
-  if (isAuthenticated) {
-    return (
-      <Switch>
-        <Route path="/dashboard">
-          <DashboardPage />
-        </Route>
-        <Route path="/catalog">
-          <CatalogPage />
-        </Route>
-        <Route path="/slack">
-          <SlackPage />
-        </Route>
-        <Redirect to="/dashboard" />
-      </Switch>
-    )
-  }
+  // if (isAuthenticated) {
+  return (
+    <Switch>
+      <Route path="/dashboard">
+        <DashboardPage />
+      </Route>
+      <Route path="/catalog">
+        <CatalogPage />
+      </Route>
+      <Route path="/slack">
+        <SlackPage />
+      </Route>
+      <Redirect to="/dashboard" />
+    </Switch>
+  )
+  // }
   return (
     <Switch>
       <Route path="/login" exact>

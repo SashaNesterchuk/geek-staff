@@ -1,8 +1,33 @@
 const express = require('express')
+const cors = require('cors')
 const config = require('config')
+const { graphqlHTTP } = require('express-graphql')
+const { buildSchema } = require('graphql')
 const mongoose = require('mongoose')
 const app = express()
 const startRoutes = require('./routes')
+const schema = buildSchema(
+  `
+    type Query {
+        hello: String
+    }
+    `
+)
+const root = {
+  hello: () => {
+    return 'Hello world!'
+  }
+}
+app.use(cors())
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true
+  })
+)
+
 app.use(express.json({ extended: true }))
 const PORT = config.get('port') || 5000
 startRoutes(app)
