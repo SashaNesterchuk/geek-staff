@@ -10,6 +10,19 @@ services:
     networks:
       - geekstaff-network
 
+  geek-auth:
+    build: ./geek-auth
+    container_name: geekstaff-auth
+    command: npm run start
+    restart: unless-stopped
+    environment:
+      - PORT=3003
+      - MONGO_URL=mongodb://mongo-catalog:27017/catalog
+    depends_on:
+      - mongo-catalog
+    networks:
+      - geekstaff-network
+
   geek-catalog:
     build: ./geek-catalog
     container_name: geekstaff-catalog
@@ -19,6 +32,7 @@ services:
       - PORT=3001
       - MONGO_URL=mongodb://mongo-catalog:27017/catalog
       - SLACK_API_URL=http://geek-slack:3002
+      - AUTH_API_URL=http://geek-auth:3003
     depends_on:
       - mongo-catalog
     networks:
@@ -35,6 +49,23 @@ services:
       - CATALOG_API_URL=http://geek-catalog:3001
     depends_on:
       - mongo-slack
+    networks:
+      - geekstaff-network
+
+  geek-graphql:
+    build:
+      context: ./geek-graphql
+      dockerfile: Dockerfile.prod
+    container_name: geekstaff-graphql
+    command: npm run start
+    restart: unless-stopped
+    environment:
+      - PORT=3004
+      - CATALOG_API_URL=http://geek-catalog:3001
+      - SLACK_API_URL=http://geek-slack:3002
+      - AUTH_API_URL=http://geek-auth:3003
+    depends_on:
+      - geek-slack
     networks:
       - geekstaff-network
 
@@ -63,6 +94,7 @@ services:
       - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
     depends_on:
       - geek-web
+      - geek-auth
       - geek-catalog
       - geek-slack
     networks:

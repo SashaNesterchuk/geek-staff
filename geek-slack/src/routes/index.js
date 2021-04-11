@@ -1,5 +1,4 @@
 function startRoutes(app) {
-  app.use('/api/auth', require('./auth.routes'))
-  app.use('/api/catalog', require('./catalog.routes'))
+  app.use('/groups', require('./group.routes'))
 }
 module.exports = startRoutes

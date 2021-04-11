@@ -1,30 +1,22 @@
 import React, { useState } from 'react'
 import { RChat } from '../components/chat/RChat'
-import { SlackSidebar } from '../components/sidebar/SlackSidebar'
-import { User, Group } from '../types'
 import './SlackPage.scss'
-import { users } from '../mock/Users'
+import { Group } from '../types'
+import { Channels } from '../components/slack/Channels'
+
 export const SlackPage = () => {
-  const [activeUser, setActiveUser] = useState<User | undefined>()
-  const onUserChoose = (name: string) => {
-    return () => {
-      setActiveUser(users.find((item) => item.name === name))
-    }
+  const [activeGroup, setActiveGroup] = useState<Group | undefined>()
+  const activateHandle = (group: Group) => {
+    setActiveGroup(group)
   }
-  const sidebar: string[] = users.map((item) => item.name)
   return (
     <div className="row flex">
       <div className="col-3 sidebar">
-        <div>Direct messages:</div>
-        <SlackSidebar
-          items={sidebar}
-          active={activeUser ? activeUser.name : ''}
-          chooseHandle={onUserChoose}
-        />
+        <Channels updateActive={activateHandle} />
       </div>
-      {!!activeUser && (
+      {!!activeGroup && (
         <div className="col-9">
-          <RChat user={activeUser} />
+          <RChat group={activeGroup} />
         </div>
       )}
     </div>

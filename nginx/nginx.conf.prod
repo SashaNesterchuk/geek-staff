@@ -11,6 +11,10 @@ server {
         proxy_pass http://geek-catalog:3001;
         rewrite ^/api/(.*) /$1 break;
     }
+    location /auth {
+        proxy_pass http://geek-auth:3003;
+        rewrite ^/auth/(.*) /$1 break;
+    } 
     
     location /graphql {
         proxy_pass http://geek-slack:3002;

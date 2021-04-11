@@ -1,3 +1,7 @@
+export enum Slack {
+  DIRECT = 'DIRECT',
+  CHANNEL = 'CHANNEL'
+}
 export interface Tag {
   name: string
 }
@@ -11,16 +15,16 @@ export interface Catalog {
 export type Group = {
   readonly _id: string
   name: string
+  type: Slack
   users: Array<User>
 }
 export type User = {
   readonly _id: string
   name: string
   email: string
-  online: boolean
   avatar?: 'string'
 }
-type Message = {
+export type Message = {
   user: User
   text: string
 }

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { Message, User } from '../../types'
+import { Group, Message, User } from '../../types'
 import { ChatMessage } from './message/ChatMessage'
 import { ChatTextearea } from './parts/ChatTextearea'
 import './RChat.scss'
 import { users } from '../../mock/Users'
 type Props = {
-  user: User
+  group: Group
 }
-export const RChat: React.FC<Props> = ({ user }) => {
+export const RChat: React.FC<Props> = ({ group }) => {
   const [messages, setMessages] = useState<Array<Message>>([
     { text: 'Hi!', user: users[0] },
     { text: 'Hey!', user: users[1] },
@@ -15,6 +15,7 @@ export const RChat: React.FC<Props> = ({ user }) => {
     { text: 'Ok, How about you?', user: users[1] }
   ])
   const addMessage = (message: string) => {
+    const user: User | undefined = group.users[0]
     const me: Message = { user, text: message }
     setMessages([...messages, me])
   }

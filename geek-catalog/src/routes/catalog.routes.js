@@ -1,12 +1,12 @@
 const { Router } = require('express')
 const bcrypt = require('bcryptjs')
-const config = require('config')
 const { check, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 const router = Router()
 const Catalog = require('../models/Catalog')
 const Tag = require('../models/Tag')
-
+const axios = require('axios')
+const { authApiUrl } = require('../configuration')
 router.post(
   '/create',
   [
@@ -73,4 +73,8 @@ router.delete(
     }
   }
 )
+router.get('/test', async (req, res) => {
+  const { data } = await axios.get(`${authApiUrl}/users`)
+  res.json(data)
+})
 module.exports = router

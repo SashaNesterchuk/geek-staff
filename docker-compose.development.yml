@@ -13,6 +13,13 @@ services:
     volumes:
       - ./geek-web/src:/usr/src/app/src
 
+  geek-auth:
+    command: npm run dev
+    ports:
+      - '3003:3003'
+    volumes:
+      - ./geek-auth/src:/usr/src/app/src
+
   geek-catalog:
     command: npm run dev
     ports:
@@ -26,6 +33,16 @@ services:
       - '3002:3002'
     volumes:
       - ./geek-slack/src:/usr/src/app/src
+
+  geek-graphql:
+    build:
+      context: ./geek-graphql
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    ports:
+      - '3004:3004'
+    volumes:
+      - ./geek-graphql/src:/usr/src/app/src
 
   nginx:
     volumes:

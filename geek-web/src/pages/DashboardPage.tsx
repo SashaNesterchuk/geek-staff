@@ -17,8 +17,8 @@ export const DashboardPage: React.FC = () => {
   // })
   // .then((r) => r.json())
   // .then((data) => console.log('data returned:', data))
-  const { loading, error, data } = useQuery(TEST)
-  console.log(data)
+
+  // const { loading, error, data } = useQuery(TEST)
   return (
     <div>
       <h2>DashboardPage</h2>

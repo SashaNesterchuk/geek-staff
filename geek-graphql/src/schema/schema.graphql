@@ -1,0 +1,33 @@
+enum Slack {
+  DIRECT
+  CHANNEL
+}
+input UserInput {
+  _id: ID
+  name: String
+  email: String
+}
+type User {
+  _id: ID!
+  name: String
+  email: String!
+  avatar: String
+}
+type Group {
+  _id: String!
+  name: String!
+  type: Slack
+  users: [User]
+}
+input GroupInput {
+  name: String!
+  users: [UserInput]
+}
+type Query {
+  users: [User]
+  groups: [Group]
+}
+
+type Mutation {
+  groupCreate(input: GroupInput): Group
+}

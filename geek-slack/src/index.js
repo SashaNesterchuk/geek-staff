@@ -1,38 +1,17 @@
 const express = require('express')
-const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql')
-
+const axios = require('axios')
+const startRoutes = require('./routes')
 const { connectDb } = require('./helpers/db')
-const { port } = require('./configuration')
-
+const { port, slackApiUrl } = require('./configuration')
 const app = express()
+app.use(express.json({ extended: true }))
+startRoutes(app)
 
 const startServer = () => {
   app.listen(port, () => {
-    console.log(`Server graphql started working on port:${port}`)
+    console.log(`Server geek-slack started working on port:${port}`)
   })
 }
-
-const schema = buildSchema(
-  `
-    type Query {
-        hello: String
-    }
-    `
-)
-const root = {
-  hello: () => {
-    return 'Hello world!'
-  }
-}
-app.use(
-  '/',
-  graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true
-  })
-)
 
 connectDb()
   .on('error', console.log)
