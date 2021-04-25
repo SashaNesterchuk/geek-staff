@@ -1,16 +1,23 @@
-import React from 'react'
-import { Message } from '../../../types'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
+import { Message, User } from '../../../types'
 import './ChatMessage.scss'
 type Props = {
   message: Message
 }
 
 export const ChatMessage: React.FC<Props> = ({ message }) => {
-  const isSelf = message.user.name === 'Sasha'
+  const auth: any = useContext(AuthContext)
+  const user: User = auth.user
+  const isCurrentUserMessage = message.user === user._id
   return (
-    <div className={isSelf ? 'message-block self' : 'message-block'}>
-      <div className={isSelf ? 'message self' : 'message another'}>
-        <div>{message.text}</div>
+    <div
+      className={isCurrentUserMessage ? 'message-block self' : 'message-block'}
+    >
+      <div
+        className={isCurrentUserMessage ? 'message self' : 'message another'}
+      >
+        <div>{message.message}</div>
       </div>
     </div>
   )

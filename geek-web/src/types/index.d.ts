@@ -25,6 +25,9 @@ export type User = {
   avatar?: 'string'
 }
 export type Message = {
-  user: User
-  text: string
+  readonly _id: string
+  user: string
+  group: Group
+  created: Date
+  message: string
 }

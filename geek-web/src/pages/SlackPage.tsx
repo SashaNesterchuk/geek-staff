@@ -3,6 +3,7 @@ import { RChat } from '../components/chat/RChat'
 import './SlackPage.scss'
 import { Group } from '../types'
 import { Channels } from '../components/slack/Channels'
+import { AuthContext } from '../context/AuthContext'
 
 export const SlackPage = () => {
   const [activeGroup, setActiveGroup] = useState<Group | undefined>()

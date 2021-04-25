@@ -12,5 +12,14 @@ router.get('/users', (req, res) => {
     res.json({ data: users })
   })
 })
+router.get('/users/:id', (req, res) => {
+  const id = req.params.id
+  User.findById(id, (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: err.message })
+    }
+    return res.json(data)
+  })
+})
 
 module.exports = router

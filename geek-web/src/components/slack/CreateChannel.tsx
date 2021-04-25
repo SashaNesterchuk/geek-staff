@@ -27,9 +27,10 @@ interface FetchUsersData {
   users: [User]
 }
 type Props = {}
-export const CreateDirect: React.FC<Props> = ({}) => {
+export const CreateChannel: React.FC<Props> = ({}) => {
   const [choosesUsers, setChoosesUsers] = useState<Array<User>>([])
   const [showDirect, setShowDirect] = useState<boolean>(false)
+  const [groupName, setGroupName] = useState<string>('')
   const [variablesGroupCreate, { data: groupCreated }] = useMutation(
     GROUP_CREATE
   )
@@ -72,9 +73,9 @@ export const CreateDirect: React.FC<Props> = ({}) => {
     variablesGroupCreate({
       variables: {
         input: {
-          name: choosesUsers.map((item) => item.name).join(', '),
+          name: groupName,
           users: users,
-          type: 'DIRECT'
+          type: 'CHANNEL'
         }
       }
     })

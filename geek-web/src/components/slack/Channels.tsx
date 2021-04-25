@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { Group } from '../../types'
 import { SlackSidebar } from '../sidebar/SlackSidebar'
 import { RLoader } from '../parts/RLoader'
@@ -12,8 +12,19 @@ export enum Slack {
 const Groups = gql`
   query groups {
     groups {
+      _id
       name
+      type
+      users {
+        _id
+        name
+      }
     }
+  }
+`
+const GROUP_DELETE = gql`
+  mutation groupDelete($input: ID!) {
+    groupDelete(input: $input)
   }
 `
 interface FetchUsersData {
@@ -25,7 +36,7 @@ type Props = {
 export const Channels: React.FC<Props> = ({ updateActive }) => {
   const { data, loading } = useQuery<FetchUsersData>(Groups)
   const [activeGroup, setActiveGroup] = useState<Group | undefined>()
-  const [createDirect, setCreateDirect] = useState<boolean>(false)
+  const [variablesGroupDelete] = useMutation(GROUP_DELETE)
 
   if (loading || !data) return <RLoader />
 
@@ -34,6 +45,7 @@ export const Channels: React.FC<Props> = ({ updateActive }) => {
       .filter((item) => item.type === type)
       .map((item) => item.name)
   }
+
   const sidebarChannel: string[] = getNameGroups(Slack.CHANNEL)
   const sidebarDirect: string[] = getNameGroups(Slack.DIRECT)
 
@@ -49,8 +61,20 @@ export const Channels: React.FC<Props> = ({ updateActive }) => {
       updateActive(group)
     }
   }
-  const addDirectHandle = (state: boolean) => {
-    setCreateDirect(state)
+  const deleteHandle = (name: string) => {
+    return () => {
+      const group: Group | undefined = data.groups.find(
+        (item) => item.name === name
+      )
+      if (!group) {
+        throw new Error('Deleted group doent exist')
+      }
+      variablesGroupDelete({
+        variables: {
+          input: group._id
+        }
+      })
+    }
   }
   return (
     <div>
@@ -59,16 +83,15 @@ export const Channels: React.FC<Props> = ({ updateActive }) => {
         items={sidebarChannel}
         active={activeGroup ? activeGroup.name : ''}
         chooseHandle={onGroupChoose}
+        deleteHandle={deleteHandle}
       />
-      <div>
-        Direct messages: <span onClick={() => addDirectHandle(true)}>++</span>
-      </div>
+      <CreateDirect />
       <SlackSidebar
         items={sidebarDirect}
         active={activeGroup ? activeGroup.name : ''}
         chooseHandle={onGroupChoose}
+        deleteHandle={deleteHandle}
       />
-      {createDirect && <CreateDirect close={() => addDirectHandle(false)} />}
     </div>
   )
 }

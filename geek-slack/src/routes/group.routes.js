@@ -50,5 +50,16 @@ router.post(
     })
   }
 )
+router.delete('/:id', (req, res) => {
+  const id = req.params.id
+
+  Group.findOneAndDelete({ _id: id }, (err) => {
+    if (err) {
+      res.status(500).json(`Group deleted err: ${err.message}`)
+      return
+    }
+    res.status(200).json({ data: true })
+  })
+})
 
 module.exports = router
