@@ -19,7 +19,7 @@ export const CatalogPage: React.FC = () => {
       dispatch(fetchCatalogs(data))
     }
     fetch()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const renderCatalogs = catalogs.map((elem) => (
     <CatalogItem key={elem._id} catalog={elem} />
   ))

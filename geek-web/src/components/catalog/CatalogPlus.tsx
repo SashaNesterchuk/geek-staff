@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useHttp } from '../../hooks/http.hook'
 import { addCatalog } from '../../redux/actions/catalog'
 import { Catalog } from '../../types'
@@ -22,7 +22,7 @@ export const CatalogPlus: React.FC = () => {
       [event.target.name]: event.target.value
     })
   }
-  const { request, error } = useHttp()
+  const { request } = useHttp()
   const onPlus = async () => {
     const data: Catalog = await request('/api/catalog/create', 'POST', {
       ...form,

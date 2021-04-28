@@ -8,9 +8,7 @@ export const DashboardItem: React.FC = () => {
         <span className="card-title activator grey-text text-darken-4">
           Card Title
         </span>
-        <p>
-          <a href="#">This is a link</a>
-        </p>
+        <p>This is a link</p>
       </RCardContent>
       <div className="card-reveal">
         <span className="card-title grey-text text-darken-4">

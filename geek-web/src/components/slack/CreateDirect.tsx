@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import { RModal } from '../parts/RModal'
 import { useMutation, useQuery } from '@apollo/client'
-import { Slack, User } from '../../types'
+import { User } from '../../types'
 import { RLoader } from '../parts/RLoader'
 import { RButton } from '../parts/RButton'
 import './CreateDirect.scss'
@@ -27,12 +27,10 @@ interface FetchUsersData {
   users: [User]
 }
 type Props = {}
-export const CreateDirect: React.FC<Props> = ({}) => {
+export const CreateDirect: React.FC<Props> = () => {
   const [choosesUsers, setChoosesUsers] = useState<Array<User>>([])
   const [showDirect, setShowDirect] = useState<boolean>(false)
-  const [variablesGroupCreate, { data: groupCreated }] = useMutation(
-    GROUP_CREATE
-  )
+  const [variablesGroupCreate] = useMutation(GROUP_CREATE)
   const { loading, data: fetchUsers } = useQuery<FetchUsersData>(Users)
 
   if (loading) return <RLoader />
@@ -41,7 +39,7 @@ export const CreateDirect: React.FC<Props> = ({}) => {
   const addUser = (user: User): void => {
     const findIndex = choosesUsers.findIndex((item) => item._id === user._id)
     if (findIndex !== -1) {
-      setChoosesUsers(choosesUsers.filter((item, index) => index !== findIndex))
+      setChoosesUsers(choosesUsers.filter((_, index) => index !== findIndex))
       return
     }
     setChoosesUsers([...choosesUsers, user])

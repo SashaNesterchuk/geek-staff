@@ -1,9 +1,8 @@
-import React from 'react'
-import { LoginPage } from '../pages/auth/LoginPage'
-import { RegisterPage } from '../pages/auth/RegisterPage'
-import { CatalogPage } from '../pages/CatalogPage'
-import { DashboardPage } from '../pages/DashboardPage'
-import { SlackPage } from '../pages/SlackPage'
+// import { LoginPage } from '../pages/auth/LoginPage'
+// import { RegisterPage } from '../pages/auth/RegisterPage'
+// import { CatalogPage } from '../pages/CatalogPage'
+// import { DashboardPage } from '../pages/DashboardPage'
+// import { SlackPage } from '../pages/SlackPage'
 export enum Middleware {
   Auth,
   Guest

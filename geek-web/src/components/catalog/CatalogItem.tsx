@@ -35,7 +35,7 @@ export const CatalogItem: React.FC<Props> = ({ catalog }) => {
           </div>
         </div>
         <div className="card-action">
-          <a href={catalog.link} target="_blank">
+          <a href={catalog.link} rel="noreferrer" target="_blank">
             link
           </a>
         </div>

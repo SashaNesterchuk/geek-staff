@@ -48,6 +48,7 @@ input MessagesInput {
 }
 
 type Query {
+  auth: User
   users: [User]
   user(input: UserInput): User
   groups: [Group]
@@ -57,5 +58,9 @@ type Query {
 type Mutation {
   groupCreate(input: GroupInput): Group
   groupDelete(input: ID!): Boolean
-  messageCreate(input: MessageInput): Message
+  messageCreate(input: MessageInput): Message!
+}
+
+type Subscription {
+  newMessage: Message!
 }

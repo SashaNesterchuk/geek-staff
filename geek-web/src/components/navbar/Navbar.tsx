@@ -1,15 +1,13 @@
 import React, { useContext } from 'react'
-import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import routes, { Middleware } from '../../routes'
 import './Navbar.scss'
 
 export const Navbar: React.FC = () => {
-  const history = useHistory()
   const auth = useContext(AuthContext)
   const logoutHandler = () => {
     auth.logout()
-    //history.push('/')
   }
   const showRoutes = routes
     .filter((elem) => elem.middleware === Middleware.Auth)

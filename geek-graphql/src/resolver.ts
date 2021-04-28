@@ -2,7 +2,7 @@ import { IResolvers } from 'graphql-tools'
 import { AUTH_API_URL, SLACK_API_URL } from './configuration'
 import axios from 'axios'
 import { GraphQLScalarType, Kind } from 'graphql'
-
+import { withFilter } from 'apollo-server-express'
 const dateScalar = new GraphQLScalarType({
   name: 'Date',
   description: 'Date custom scalar type',
@@ -21,6 +21,16 @@ const dateScalar = new GraphQLScalarType({
 })
 const resolvers: IResolvers = {
   Date: dateScalar,
+  Subscription: {
+    newMessage: {
+      subscribe: withFilter(
+        (_, __, { pubsub }) => pubsub.asyncIterator('NEW_MESSAGE'),
+        ({ newMessage }, _, { user }) => {
+          return newMessage.from === user.name || newMessage.to === user.name
+        }
+      )
+    }
+  },
   Mutation: {
     groupCreate: async (_, { input }, test) => {
       try {
@@ -38,9 +48,13 @@ const resolvers: IResolvers = {
         throw new Error(e.message)
       }
     },
-    messageCreate: async (_, { input }, test) => {
+    messageCreate: async (_, { input }, { pubsub }) => {
       try {
         const { data } = await axios.post(`${SLACK_API_URL}/messages`, input)
+        console.log(data)
+        pubsub.publish('NEW_MESSAGE', {
+          newMessage: data
+        })
         return data
       } catch (e) {
         throw new Error(e.message)
@@ -48,6 +62,9 @@ const resolvers: IResolvers = {
     }
   },
   Query: {
+    auth: (_, __, { user }) => {
+      return user
+    },
     users: async () => {
       try {
         const { data } = await axios.get(`${AUTH_API_URL}/users`)

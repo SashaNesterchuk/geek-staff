@@ -4,7 +4,17 @@ const { check, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const router = Router()
-
+router.get('/token/:token', (req, res) => {
+  const token = req.params.token
+  jwt.verify(token, 'geek', (err, decodeToken) => {
+    User.findById(decodeToken.userId, (err, user) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error in authentication' })
+      }
+      res.json(user)
+    })
+  })
+})
 router.post(
   '/register',
   [
@@ -58,8 +68,8 @@ router.post(
       if (!isMatch) {
         return res.status(404).json({ message: 'Wrong message' })
       }
-      const token = jwt.sign({ userId: user.id }, 'geek staff', {
-        expiresIn: '1h'
+      const token = jwt.sign({ userId: user.id }, 'geek', {
+        expiresIn: 60 * 60
       })
       res.json({ token, userId: user.id })
     } catch (e) {

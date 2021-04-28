@@ -21,12 +21,6 @@ export const LoginPage: React.FC = () => {
       [event.target.name]: event.target.value
     })
   }
-  const registerHandler = async () => {
-    try {
-      const data = await request('/auth/register', 'POST', { ...form })
-      message(data.message)
-    } catch (e) {}
-  }
   const loginHandler = async () => {
     try {
       const data = await request('/auth/login', 'POST', { ...form })

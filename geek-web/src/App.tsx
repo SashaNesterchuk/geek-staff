@@ -7,9 +7,9 @@ import { Navbar } from './components/navbar/Navbar'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client'
 import { RLoader } from './components/parts/RLoader'
-const USER_FETCH = gql`
-  query user($input: UserInput) {
-    user(input: $input) {
+const USER_AUTH = gql`
+  query auth {
+    auth {
       _id
       name
       email
@@ -17,22 +17,18 @@ const USER_FETCH = gql`
   }
 `
 function App() {
-  const { token, userId, login, logout } = useAuth()
+  const { token, login, logout } = useAuth()
   const isAuthenticated = !!token
   const routes = useRoutes(isAuthenticated)
-  const { data, loading } = useQuery(USER_FETCH, {
-    variables: { input: { id: userId } }
-  })
+  const { data, loading } = useQuery(USER_AUTH)
   if (loading) {
     return <RLoader />
   }
-  console.log(data)
   return (
     <AuthContext.Provider
       value={{
-        user: data?.user,
+        user: data?.auth,
         token,
-        userId,
         isAuthenticated,
         login,
         logout
