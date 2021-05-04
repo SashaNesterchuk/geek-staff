@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  geek-auth:
+    command: npm run seed
+#   geek-catalog:
+# build:
+#   context: ./geek-catalog
+#   dockerfile: Dockerfile.seed
+
+#   geek-slack:
+# build:
+#   context: ./geek-slack
+#   dockerfile: Dockerfile.seed
