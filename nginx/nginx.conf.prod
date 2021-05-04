@@ -17,7 +17,11 @@ server {
     } 
     
     location /graphql {
-        proxy_pass http://geek-slack:3002;
-        rewrite ^/graphql/(.*) /$1 break;
+        proxy_pass http://geek-graphql:3004;
     }
+
+    location /subscription {
+        proxy_pass http://geek-graphql:3004;
+    }
+}
 }

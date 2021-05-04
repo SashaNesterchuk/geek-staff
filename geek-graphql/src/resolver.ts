@@ -23,12 +23,14 @@ const resolvers: IResolvers = {
   Date: dateScalar,
   Subscription: {
     newMessage: {
-      subscribe: withFilter(
-        (_, __, { pubsub }) => pubsub.asyncIterator('NEW_MESSAGE'),
-        ({ newMessage }, _, { user }) => {
-          return newMessage.from === user.name || newMessage.to === user.name
-        }
-      )
+      subscribe: (_, __, { pubsub, user }) => {
+        console.log(user, 'SUBSCRIPTION')
+        return pubsub.asyncIterator('NEW_MESSAGE')
+      }
+      // ({ newMessage }, _, { user }) => {
+      // console.log(user, 'resolver')
+      // return newMessage.from === user.name || newMessage.to === user.name
+      // }
     }
   },
   Mutation: {
@@ -51,7 +53,6 @@ const resolvers: IResolvers = {
     messageCreate: async (_, { input }, { pubsub }) => {
       try {
         const { data } = await axios.post(`${SLACK_API_URL}/messages`, input)
-        console.log(data)
         pubsub.publish('NEW_MESSAGE', {
           newMessage: data
         })
@@ -65,7 +66,8 @@ const resolvers: IResolvers = {
     auth: (_, __, { user }) => {
       return user
     },
-    users: async () => {
+    users: async (_, __, { user }) => {
+      console.log(user, 'users')
       try {
         const { data } = await axios.get(`${AUTH_API_URL}/users`)
         return data.data

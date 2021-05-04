@@ -26,11 +26,11 @@ const authLink = setContext((_, { headers }) => {
 httpLink = authLink.concat(httpLink)
 
 const wsLink = new WebSocketLink({
-  uri: `ws://geekstaff.local/graphql/`,
+  uri: `ws://geekstaff.local/subscription`,
   options: {
     reconnect: true,
     connectionParams: {
-      Authorization: `${storage.token}`
+      Authorization: storage.token ? `${storage.token}` : ''
     }
   }
 })

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { useQuery, useMutation } from '@apollo/client'
+import React, { useContext, useEffect } from 'react'
+import { useQuery, useMutation, useSubscription } from '@apollo/client'
 import { Group, Message, User } from '../../types'
 import { ChatMessage } from './message/ChatMessage'
 import { ChatTextearea } from './parts/ChatTextearea'
@@ -33,13 +33,54 @@ const MESSAGE_CREATE = gql`
   }
 `
 
+const MESSAGE_NEW = gql`
+  subscription newMessage {
+    newMessage {
+      _id
+      user
+      created
+      message
+    }
+  }
+`
+
 export const RChat: React.FC<Props> = ({ group }) => {
   const auth: any = useContext(AuthContext)
   const user: User = auth.user
-  const { data, loading } = useQuery(MESSAGES, {
+  const { data, loading, subscribeToMore } = useQuery(MESSAGES, {
     variables: { input: { groupId: group._id } }
   })
   const [messageCreate] = useMutation(MESSAGE_CREATE)
+  // const { data: newMessage, error: newMessageError } = useSubscription(
+  // MESSAGE_NEW
+  // )
+  useEffect(() => {
+    subscribeToMore({
+      document: MESSAGE_NEW,
+      updateQuery: (prev, { subscriptionData }) => {
+        const newMessage = subscriptionData.data.newMessage
+        console.log(
+          Object.assign({}, prev, {
+            messages: {
+              messages: [...prev.messages.messages, newMessage]
+            }
+          })
+        )
+        return Object.assign({}, prev, {
+          messages: {
+            messages: [...prev.messages.messages, newMessage]
+          }
+        })
+      }
+    })
+    // if (newMessageError) {
+    // console.error(newMessageError)
+    // return
+    // }
+    // if (newMessage) {
+    // console.log(newMessage)
+    // }
+  }, [subscribeToMore])
 
   if (loading) {
     return <RLoader></RLoader>

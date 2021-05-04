@@ -11,12 +11,6 @@ const pubsub = new PubSub()
 const server = new ApolloServer({
   schema,
   playground: true,
-  subscriptions: {
-    onConnect: () => {
-      console.log('Subscription is Connected')
-    },
-    path: '/graphql'
-  },
   context: async (ctx) => {
     let token
     let user: any
@@ -31,7 +25,14 @@ const server = new ApolloServer({
       })
       user = data
     }
+    // console.log(user, token, 'context')
     return { ...ctx, pubsub, user }
+  },
+  subscriptions: {
+    onConnect: () => {
+      console.log('Subscription is Connected')
+    },
+    path: '/subscription'
   }
 })
 server.applyMiddleware({ app })
