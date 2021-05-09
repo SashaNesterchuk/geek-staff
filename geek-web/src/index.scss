@@ -2,6 +2,7 @@
 @import './colors';
 @import './indent.scss';
 @import './layout.scss';
+@import './input.scss';
 body {
   margin: 0;
 }
@@ -18,7 +19,7 @@ body {
 @include indent('.pb-', 'padding-bottom');
 @include indent('.p-', 'padding');
 /* Button */
-.btn {
+button {
   padding: 8px;
   border: none;
   border-radius: 4px;
@@ -34,6 +35,9 @@ body {
 }
 .btn-success {
   background-color: map-get($map: $btn-colors, $key: 'success');
+}
+button:disabled {
+  background-color: map-get($map: $btn-colors, $key: 'disabled');
 }
 a {
   text-decoration: none;

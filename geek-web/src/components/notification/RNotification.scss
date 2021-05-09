@@ -1,0 +1,9 @@
+@import '../../colors.scss';
+.r-notification {
+  position: absolute;
+  width: 80%;
+  padding: 20px;
+  background-color: $palette-3;
+  border-radius: 4px;
+  left: 10%;
+}

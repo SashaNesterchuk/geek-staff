@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import catalogs from './catalogs'
-import { CatalogState } from './catalogs'
+import catalogs, { CatalogState } from './catalogs'
+import notifications, { NotificationState } from './notifications'
 const rootReducer = combineReducers({
-  catalogs
+  catalogs,
+  notifications
 })
 export type RootState = {
   catalogs: CatalogState
+  notifications: NotificationState
 }
 export default rootReducer

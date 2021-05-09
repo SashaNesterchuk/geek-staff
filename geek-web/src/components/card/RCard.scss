@@ -1,2 +1,6 @@
+@import '../../colors.scss';
 .card {
+  border-radius: 4px;
+  background-color: $palette-1;
+  color: $palette-4;
 }

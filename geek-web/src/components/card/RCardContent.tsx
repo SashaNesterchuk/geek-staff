@@ -4,5 +4,5 @@ type Props = {
 }
 
 export const RCardContent: React.FC<Props> = ({ children }) => {
-  return <div className="card-content">{children}</div>
+  return <div className="p-2">{children}</div>
 }

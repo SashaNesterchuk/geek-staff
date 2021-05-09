@@ -1,5 +1,5 @@
 $step: 4;
-$count: 5;
+$count: 10;
 @mixin indent($className, $styleName) {
   $i: 0;
   @while $i <= $count {

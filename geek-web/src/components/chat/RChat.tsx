@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { useQuery, useMutation, useSubscription } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { Group, Message, User } from '../../types'
 import { ChatMessage } from './message/ChatMessage'
 import { ChatTextearea } from './parts/ChatTextearea'

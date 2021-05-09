@@ -1,4 +1,12 @@
 @import '../../colors.scss';
 .navbar {
-  background-color: $navbar-color;
+  background-color: $palette-1;
+}
+.navbar-item a {
+  color: $palette-4;
+}
+
+.navbar-item a.active {
+  color: $palette-5;
+  background-color: inherit;
 }

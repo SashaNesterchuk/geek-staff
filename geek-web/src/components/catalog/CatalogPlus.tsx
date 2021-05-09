@@ -3,6 +3,10 @@ import { useDispatch } from 'react-redux'
 import { useHttp } from '../../hooks/http.hook'
 import { addCatalog } from '../../redux/actions/catalog'
 import { Catalog } from '../../types'
+import { RCard } from '../card/RCard'
+import { RCardAction } from '../card/RCardAction'
+import { RCardContent } from '../card/RCardContent'
+import { RCardTitle } from '../card/RCardTitle'
 import { RChip } from '../parts/RChip'
 
 export const CatalogPlus: React.FC = () => {
@@ -47,64 +51,63 @@ export const CatalogPlus: React.FC = () => {
     setChips(chips.filter((item, index) => index !== position))
   }
   return (
-    <div className="col m3">
-      <div className="card">
-        <div className="card-content">
-          <div className="input-field">
-            <input
-              id="name"
-              name="name"
-              type="text"
-              className="validate"
-              onChange={changeHandler}
-            />
-            <label htmlFor="name">Name</label>
-          </div>
-          <div className="input-field">
-            <input
-              id="description"
-              name="description"
-              type="text"
-              className="validate"
-              onChange={changeHandler}
-            />
-            <label htmlFor="description">Description</label>
-          </div>
-          <div className="input-field">
-            <input
-              id="link"
-              name="link"
-              type="text"
-              className="validate"
-              onChange={changeHandler}
-            />
-            <label htmlFor="link">Link</label>
+    <RCard>
+      <RCardTitle>Create Catalog</RCardTitle>
+      <RCardContent>
+        <div className="input-field mb-1">
+          <input
+            id="name"
+            name="name"
+            type="text"
+            className="validate"
+            onChange={changeHandler}
+          />
+          <label htmlFor="name">Name</label>
+        </div>
+        <div className="input-field mb-1">
+          <input
+            id="description"
+            name="description"
+            type="text"
+            className="validate"
+            onChange={changeHandler}
+          />
+          <label htmlFor="description">Description</label>
+        </div>
+        <div className="input-field mb-1">
+          <input
+            id="link"
+            name="link"
+            type="text"
+            className="validate"
+            onChange={changeHandler}
+          />
+          <label htmlFor="link">Link</label>
+        </div>
+        <div>
+          <div className="d-flex align-center">
+            <input type="text" value={tmpChip} onChange={inputTmpChip} />
+            <button className="btn btn-small blue" onClick={onAddChip}>
+              Tag
+            </button>
           </div>
           <div>
-            <div>
-              <input type="text" value={tmpChip} onChange={inputTmpChip} />
-              <button className="btn btn-small blue" onClick={onAddChip}>
-                Add Tags
-              </button>
-            </div>
-            <div>
-              {chips.map((item, index) => (
-                <RChip
-                  key={item}
-                  text={item}
-                  close={true}
-                  onClose={onCloseChip(index)}
-                />
-              ))}
-            </div>
+            {chips.map((item, index) => (
+              <RChip
+                key={item}
+                text={item}
+                close={true}
+                onClose={onCloseChip(index)}
+              />
+            ))}
           </div>
         </div>
-        <div className="card-action">
-          <button className="btn" onClick={onPlus}>
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
+      </RCardContent>
+      <RCardAction>
+        <button className="btn" onClick={onPlus}>
+          Save
+        </button>
+      </RCardAction>
+    </RCard>
   )
 }

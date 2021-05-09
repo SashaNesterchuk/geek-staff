@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { RCard } from '../../components/card/RCard'
+import { RCardAction } from '../../components/card/RCardAction'
+import { RCardContent } from '../../components/card/RCardContent'
+import { RCardTitle } from '../../components/card/RCardTitle'
 import { AuthContext } from '../../context/AuthContext'
 import { useHttp } from '../../hooks/http.hook'
 import { useMessage } from '../../hooks/message.hook'
+import { useHistory } from 'react-router-dom'
 
 export const LoginPage: React.FC = () => {
   const auth = useContext(AuthContext)
   const message = useMessage()
   const { loading, error, request, clearError } = useHttp()
+  const history = useHistory()
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -21,6 +27,9 @@ export const LoginPage: React.FC = () => {
       [event.target.name]: event.target.value
     })
   }
+  const registerHandler = () => {
+    history.push('/register')
+  }
   const loginHandler = async () => {
     try {
       const data = await request('/auth/login', 'POST', { ...form })
@@ -29,13 +38,13 @@ export const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="row">
-      <div className="col s12 m6">
-        <div className="card darken-1">
-          <div className="card-content white-text">
-            <span className="card-title">Login</span>
+    <div className="row justify-center mt-6">
+      <div className="col s12 mt-7">
+        <RCard>
+          <RCardTitle>Login Page</RCardTitle>
+          <RCardContent>
             <div>
-              <div className="input-field">
+              <div className="input-field mb-2">
                 <input
                   id="email"
                   type="text"
@@ -56,17 +65,20 @@ export const LoginPage: React.FC = () => {
                 <label htmlFor="password">Password</label>
               </div>
             </div>
-          </div>
-          <div className="card-action">
+          </RCardContent>
+          <RCardAction>
             <button
-              className="btn green"
+              className="btn-success mr-1"
               onClick={loginHandler}
-              disabled={loading}
+              disabled={loading || !form.email}
             >
               Login
             </button>
-          </div>
-        </div>
+            <button className="btn-primary" onClick={registerHandler}>
+              Register
+            </button>
+          </RCardAction>
+        </RCard>
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 import React from 'react'
-import 'RCardTitle.scss'
+import './RCardTitle.scss'
 type Props = {
   children: React.ReactNode
 }

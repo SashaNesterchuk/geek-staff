@@ -20,15 +20,20 @@ export const CatalogPage: React.FC = () => {
     }
     fetch()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const renderCatalogs = catalogs.map((elem) => (
-    <CatalogItem key={elem._id} catalog={elem} />
+    <div key={elem._id} className="col-2 m-2">
+      <CatalogItem catalog={elem} />
+    </div>
   ))
   return (
     <div>
       <h2>Catalog Page</h2>
       <div className="row">
         {renderCatalogs}
-        <CatalogPlus />
+        <div className="col-2 m-2">
+          <CatalogPlus />
+        </div>
       </div>
     </div>
   )

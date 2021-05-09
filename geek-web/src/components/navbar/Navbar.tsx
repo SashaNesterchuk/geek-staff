@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   const showRoutes = routes
     .filter((elem) => elem.middleware === Middleware.Auth)
     .map((elem) => (
-      <li key={elem.name} className="mr-2">
+      <li key={elem.name} className="mr-2 navbar-item">
         <NavLink to={elem.path}>{elem.name}</NavLink>
       </li>
     ))
