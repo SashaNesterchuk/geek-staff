@@ -1,0 +1,66 @@
+scalar Date
+enum Slack {
+  DIRECT
+  CHANNEL
+}
+input UserInput {
+  id: ID
+  name: String
+  email: String
+  avatar: String
+}
+type User {
+  _id: ID!
+  name: String
+  email: String!
+  avatar: String
+}
+type Group {
+  _id: ID!
+  name: String!
+  type: Slack
+  users: [User]
+}
+input GroupInput {
+  _id: ID
+  name: String!
+  users: [UserInput]
+  type: Slack
+}
+type Message {
+  _id: ID
+  message: String
+  group: Group
+  user: ID
+  created: Date
+  edited: Date
+}
+input MessageInput {
+  groupId: ID!
+  message: String!
+  userId: ID!
+}
+type Messages {
+  messages: [Message]
+}
+input MessagesInput {
+  groupId: ID!
+}
+
+type Query {
+  auth: User
+  users: [User]
+  user(input: UserInput): User
+  groups: [Group]
+  messages(input: MessagesInput): Messages
+}
+
+type Mutation {
+  groupCreate(input: GroupInput): Group
+  groupDelete(input: ID!): Boolean
+  messageCreate(input: MessageInput): Message!
+}
+
+type Subscription {
+  newMessage: Message!
+}

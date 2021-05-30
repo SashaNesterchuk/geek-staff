@@ -1,17 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
+import './index.scss'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './redux/reducers/rootReducer'
+import { ApolloProvider } from '@apollo/client'
+import { client } from './ApolloProvider'
 const store = createStore(rootReducer)
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

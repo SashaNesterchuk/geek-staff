@@ -1,18 +1,23 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { AuthPage } from '../pages/AuthPage'
+import { LoginPage } from '../pages/auth/LoginPage'
+import { RegisterPage } from '../pages/auth/RegisterPage'
 import { CatalogPage } from '../pages/CatalogPage'
 import { DashboardPage } from '../pages/DashboardPage'
+import { SlackPage } from '../pages/SlackPage'
 
 export const useRoutes = (isAuthenticated: boolean) => {
   if (isAuthenticated) {
     return (
       <Switch>
-        <Route path="/dashboard" exact>
+        <Route path="/dashboard">
           <DashboardPage />
         </Route>
-        <Route path="/catalog" exact>
+        <Route path="/catalog">
           <CatalogPage />
+        </Route>
+        <Route path="/slack">
+          <SlackPage />
         </Route>
         <Redirect to="/dashboard" />
       </Switch>
@@ -21,7 +26,10 @@ export const useRoutes = (isAuthenticated: boolean) => {
   return (
     <Switch>
       <Route path="/login" exact>
-        <AuthPage />
+        <LoginPage />
+      </Route>
+      <Route path="/register" exact>
+        <RegisterPage />
       </Route>
       <Redirect to="/login" />
     </Switch>

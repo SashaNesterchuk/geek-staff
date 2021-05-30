@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  geek-web:
+    build:
+      context: ./geek-web
+      dockerfile: Dockerfile.dev
+    command: npm run start
+    stdin_open: true
+    tty: true
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./geek-web/src:/usr/src/app/src
+
+  geek-auth:
+    command: npm run dev
+    ports:
+      - '3003:3003'
+    volumes:
+      - ./geek-auth/src:/usr/src/app/src
+
+  geek-catalog:
+    command: npm run dev
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./geek-catalog/src:/usr/src/app/src
+
+  geek-slack:
+    command: npm run dev
+    ports:
+      - '3002:3002'
+    volumes:
+      - ./geek-slack/src:/usr/src/app/src
+
+  geek-graphql:
+    build:
+      context: ./geek-graphql
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    ports:
+      - '3004:3004'
+    volumes:
+      - ./geek-graphql/src:/usr/src/app/src
+
+  nginx:
+    volumes:
+      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf

@@ -1,0 +1,27 @@
+server {
+    listen 80;
+    
+    server_name geekstaff.com;
+
+    location / {
+        proxy_pass http://geek-web:3000;
+    }
+
+    location /api {
+        proxy_pass http://geek-catalog:3001;
+        rewrite ^/api/(.*) /$1 break;
+    }
+    location /auth {
+        proxy_pass http://geek-auth:3003;
+        rewrite ^/auth/(.*) /$1 break;
+    } 
+    
+    location /graphql {
+        proxy_pass http://geek-graphql:3004;
+    }
+
+    location /subscription {
+        proxy_pass http://geek-graphql:3004;
+    }
+}
+}
